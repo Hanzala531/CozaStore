@@ -1,5 +1,5 @@
 document.addEventListener("DOMContentLoaded", function () {
-  const url = "http://localhost:3000/api/v1/products";
+  const url = "https://fk-coza-store-backend.vercel.app/api/v1/products";
   fetchProducts(url);
 });
 
@@ -128,7 +128,7 @@ const addToCart = async (productId, quantity) => {
   console.log("Asdasdasd",productId, quantity);
   
   try {
-    const response = await fetch("http://localhost:3000/api/v1/cart/", {
+    const response = await fetch("https://fk-coza-store-backend.vercel.app/api/v1/cart/", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

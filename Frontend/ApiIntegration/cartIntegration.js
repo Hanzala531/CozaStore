@@ -1,4 +1,4 @@
-const apiBaseUrl = "http://localhost:3000/api/v1"; // Replace with your backend API base URL
+const apiBaseUrl = "https://fk-coza-store-backend.vercel.app/api/v1"; // Replace with your backend API base URL
 
 // Toggle cart popup
 function toggleCart() {
@@ -23,7 +23,7 @@ async function fetchCart() {
       renderCart(data.data);
     } else {
       console.error("Failed to fetch cart:", data.message);
-      alert("Failed to fetch cart. Please try again.");
+      // alert("Failed to fetch cart. Please try again.");
     }
   } catch (error) {
     console.error("Error fetching cart:", error);

@@ -1,12 +1,12 @@
 document.addEventListener("DOMContentLoaded", () => {
   fetchProductData(
-    "http://localhost:3000/api/v1/products",
+    "https://fk-coza-store-backend.vercel.app/api/v1/products",
     "productTable",
     "products"
   );
-  fetchOrdersData("http://localhost:3000/api/v1/orders", "orderTable");
-  fetchNewsLetterData("http://localhost:3000/api/v1/newsletter", "newsLetterTable");
-  userData("http://localhost:3000/api/v1/users", "userTable", "users");
+  fetchOrdersData("https://fk-coza-store-backend.vercel.app/api/v1/orders", "orderTable");
+  fetchNewsLetterData("https://fk-coza-store-backend.vercel.app/api/v1/newsletter", "newsLetterTable");
+  userData("https://fk-coza-store-backend.vercel.app/api/v1/users", "userTable", "users");
 });
 
 // function to fetch and display data of products
@@ -43,7 +43,7 @@ async function fetchProductData(url, tableId) {
       // Add event listener for delete button
       actionCell.querySelector(".delete").addEventListener("click", async () => {
         try {
-          const response = await fetch(`http://localhost:3000/api/v1/products/${item._id}`, {
+          const response = await fetch(`https://fk-coza-store-backend.vercel.app/api/v1/products/${item._id}`, {
             method: "DELETE",
             headers: {
               Authorization: `Bearer ${token}`,
@@ -218,7 +218,7 @@ async function fetchNewsLetterData(url, tableId) {
       actionCell.querySelector("button").addEventListener("click", async () => {
         try {
           console.log("Deleting item with ID:", item._id); // Debugging statement
-          const response = await fetch(`http://localhost:3000/api/v1/newsletter/${item._id}`, {
+          const response = await fetch(`https://fk-coza-store-backend.vercel.app/api/v1/newsletter/${item._id}`, {
             method: "DELETE",
             headers: {
               Authorization: `Bearer ${token}`,
@@ -302,7 +302,7 @@ async function userData(url, tableId, key) {
           try {
             const selectedRole = statusDropdown.value;
             console.log("Updating role for user with ID:", item._id);
-            const response = await fetch(`http://localhost:3000/api/v1/users/${item._id}/role`, {
+            const response = await fetch(`https://fk-coza-store-backend.vercel.app/api/v1/users/${item._id}/role`, {
               method: "PUT",
               headers: {
                 Authorization: `Bearer ${token}`,
@@ -334,7 +334,7 @@ async function userData(url, tableId, key) {
       actionCell.querySelector(".delete").addEventListener("click", async () => {
         try {
           console.log("Deleting user with ID:", item._id); // Debugging statement
-          const response = await fetch(`http://localhost:3000/api/v1/users/${item._id}`, {
+          const response = await fetch(`https://fk-coza-store-backend.vercel.app/api/v1/users/${item._id}`, {
             method: "DELETE",
             headers: {
               Authorization: `Bearer ${token}`,
@@ -373,7 +373,7 @@ document.getElementById("logout").addEventListener("click", async () => {
     if (!token) throw new Error("No access token found. Please login.");
 
     const response = await fetch(
-      "http://localhost:3000/api/v1/users/logout",
+      "https://fk-coza-store-backend.vercel.app/api/v1/users/logout",
       {
         method: "POST",
         headers: {

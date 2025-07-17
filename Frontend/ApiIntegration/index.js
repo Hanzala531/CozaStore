@@ -1,4 +1,4 @@
-      const apiBaseUrl = "http://localhost:3000/api/v1"; // Replace with your backend API base URL
+      const apiBaseUrl = "https://fk-coza-store-backend.vercel.app/api/v1"; // Replace with your backend API base URL
 
       // Side Menu Functionality
       const sideMenu = document.getElementById("side-menu");
@@ -54,7 +54,7 @@
                   throw new Error("No access token found. Please login.");
 
                 const response = await fetch(
-                  "http://localhost:3000/api/v1/users/logout",
+                  "https://fk-coza-store-backend.vercel.app/api/v1/users/logout",
                   {
                     method: "POST",
                     headers: {

@@ -1,5 +1,5 @@
 // Integrating the subscriber to the newsletter
-// http://localhost:3000/api/v1/newsletter
+// https://fk-coza-store-backend.vercel.app/api/v1/newsletter
 // Method: POST
 
 const form = document.querySelector('#newsletter-form');
@@ -35,7 +35,7 @@ form.addEventListener('submit', async (event) => {
 
 const addEmail = async (email) => {
   try {
-    const response = await fetch('http://localhost:3000/api/v1/newsletter', {
+    const response = await fetch('https://fk-coza-store-backend.vercel.app/api/v1/newsletter', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',

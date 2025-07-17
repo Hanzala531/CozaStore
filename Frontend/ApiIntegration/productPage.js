@@ -1,5 +1,5 @@
 document.addEventListener("DOMContentLoaded", () => {
-  const url = "http://localhost:3000/api/v1/products";
+  const url = "https://fk-coza-store-backend.vercel.app/api/v1/products";
   fetchProducts(url); // Initial fetch of all products
 
   const categoryLinks = document.querySelectorAll(".category-link");
@@ -36,7 +36,7 @@ async function fetchProducts(url) {
 
 let allProducts = []; // Store all fetched products
 
-fetchProducts("http://localhost:3000/api/v1/products")
+fetchProducts("https://fk-coza-store-backend.vercel.app/api/v1/products")
   .then((products) => {
     allProducts = products.data; // Store all products
     displayProducts(allProducts); // Display all products initially
@@ -94,7 +94,7 @@ async function addToCart(productId) {
       quantity: 1, // Default quantity
     };
 
-    const response = await fetch("http://localhost:3000/api/v1/cart", {
+    const response = await fetch("https://fk-coza-store-backend.vercel.app/api/v1/cart", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
