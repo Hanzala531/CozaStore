@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>sHoPsCloTh</title>
+    <link rel="stylesheet" href="style.css" />
+    <style>
+      #open-menu{
+        display: none;
+        background-color: transparent;
+        font-size: 1.5rem;
+        transition:  0.9s  ease-in-out;
+        cursor: pointer;
+        border: none;
+        outline: none;
+      }
+      .cross{
+        display: none;
+        position: absolute;
+        top: 20px;
+        right: 50px;
+        font-size: 1.5rem;
+        cursor: pointer;    
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Side Popup Menu -->
+    <div class="wrapper">
+      <div id="side-menu" class="side-menu">
+        <button id="close-menu" class="close-menu">×</button>
+        <ul>
+          <li><a href="#">My Profile</a></li>
+          <li><a href="#" id="Dashboard">Dashboard</a></li>
+          <li><a href="#">Payments</a></li>
+          <li><a href="#">Add Payment Method</a></li>
+          <li><button id="logout">Logout</button></li>
+        </ul>
+      </div>
+
+      <!-- Overlay for background dimming -->
+      <div id="overlay" class="overlay"></div>
+
+      <!-- Cart Popup -->
+      <div class="cart-popup">
+        <div class="cart-container">
+          <h2>Shopping Cart</h2>
+          <div id="cart-items">
+            <!-- Cart items will be dynamically added here -->
+          </div>
+          <div class="cart-total">Total: $<span id="cart-total">0</span></div>
+          <div class="cart-actions">
+            <button onclick="clearCart()">Clear Cart</button>
+            <button onclick="checkout()">Checkout</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Overlay for Cart Popup -->
+      <div class="cart-overlay"></div>
+
+      <header class="navbar">
+        <div class="logo"><a href="#">sHoPsCloTh</a></div>
+        <nav>
+          <img src="./svg/cross.svg" alt="" class="cross">
+          <ul class="nav-links">
+            <li><a href="#best-selling">Home</a></li>
+            <li><a href="#product-grid">Shop</a></li>
+            <li><a href="#designer-section">Features</a></li>
+            <li><a href="#about">About</a></li>
+          </ul>
+          <div class="nav-actions">
+            <a href="#" onclick="toggleCart()"
+              ><img src="svg/cart.svg" alt="Cart"
+            /> Cart</a>
+            <a href="./ApiIntegration/Login.html" id="login-button"
+              ><button class="btn-login">Login</button></a
+            >
+            <button
+              id="profile-button"
+              class="btn-profile"
+              style="display: none"
+            >
+              Profile
+            </button>
+          </div>
+        </nav>
+        <button id="open-menu" class="open-menu">☰</button>
+      </header>
+
+      <section class="hero">
+        <div class="hero-content">
+          <h1>Discover and Find Your Own Fashion!</h1>
+          <p>
+            Explore our curated collection of stylish clothing and accessories
+            tailored to your unique taste.
+          </p>
+          <a href="#best-selling" class="btn">EXPLORE NOW</a>
+        </div>
+        <div class="hero-image">
+          <img
+            src="https://c.animaapp.com/mUZKBhGU/img/mask-group.png"
+            alt="Fashion Image"
+          />
+        </div>
+      </section>
+
+      <!-- Best Selling Section -->
+      <section class="best-selling" id="best-selling">
+        <h2>Best Selling</h2>
+        <p>
+          Get in on the trend with our curated selection of best-selling styles.
+        </p>
+
+        <div class="products-container" id="bestSellingProducts"></div>
+        <a href="./html/allProducts.html"
+          ><button class="see-all-btn">See all <span>&rarr;</span></button></a
+        >
+      </section>
+
+      <!-- Product Grid Section -->
+      <section class="product-grid" id="product-grid">
+        <h2>Our Products</h2>
+        <p>
+          Get in on the trend with our superb collection of wonderful products
+          of all nieche.
+        </p>
+        <br />
+        <div class="product-list" id="product-list"></div>
+        <a href="./html/allProducts.html"
+          ><button class="see-all-btn">See all <span>&rarr;</span></button></a
+        >
+      </section>
+
+      <!-- Designers section -->
+      <section class="designer-section" id="designer-section">
+        <h2>Designer Clothes For You</h2>
+        <p class="subtitle">
+          Immerse yourself in the world of luxury fashion with our meticulously
+          crafted designer clothes!
+        </p>
+
+        <div class="fashion-container" id="designerProducts">
+          <div class="fashion-item">
+            <img src="./Images/accessories.jpg" alt="Accessories" />
+            <h3>Accessories</h3>
+            <p>
+              Complete your ensemble with designer accessories such as handbags,
+              scarves, belts, and hats.
+            </p>
+          </div>
+          <div class="fashion-item">
+            <img src="./Images/dresses.jpg" alt="Dresses" />
+            <h3>Dresses</h3>
+            <p>
+              Explore a stunning range of designer dresses, including evening
+              gowns and chic day dresses.
+            </p>
+          </div>
+          <div class="fashion-item">
+            <img src="./Images/outerwear.jpg" alt="Outerwear" />
+            <h3>Outerwear</h3>
+            <p>
+              Browse luxurious designer coats, jackets, and blazers to stay
+              stylishly warm during colder seasons.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <!-- Feedback section -->
+      <section class="feedback-section">
+        <div class="feedback-container">
+          <h2>Feedback Corner</h2>
+
+          <div class="feedback-grid">
+            <div class="feedback-card">
+              <div class="avatar">ST</div>
+              <h3>Sarah Thompson</h3>
+              <p>
+                "The customer experience was exceptional. The quality and style
+                of the clothes were beyond expectations."
+              </p>
+            </div>
+
+            <div class="feedback-card">
+              <div class="avatar">EJ</div>
+              <h3>Emily Johnson</h3>
+              <p>
+                "My shopping experience was delightful! The website was
+                user-friendly, and the product descriptions were detailed."
+              </p>
+            </div>
+
+            <div class="feedback-card">
+              <div class="avatar">MB</div>
+              <h3>Michael Brown</h3>
+              <p>
+                "The selection of clothes is fantastic, and the prices are
+                reasonable. Will definitely shop here again!"
+              </p>
+            </div>
+          </div>
+
+          <div class="submit-feedback">
+            <button onclick="location.href='#'">Submit Your Feedback</button>
+          </div>
+        </div>
+      </section>
+
+      <footer class="footer" id="about">
+        <div class="footer-container">
+          <!-- Brand & Social Media -->
+          <div class="footer-brand">
+            <h2>sHoPsCloTh</h2>
+            <p>Social Media</p>
+            <div class="social-icons">
+              <a href="#"><i class="fab fa-facebook"></i></a>
+              <a href="#"><i class="fab fa-twitter"></i></a>
+              <a href="#"><i class="fab fa-instagram"></i></a>
+            </div>
+          </div>
+
+          <!-- Shop Links -->
+          <div class="footer-links">
+            <h3>SHOP</h3>
+            <ul>
+              <li><a href="#">Products</a></li>
+              <li><a href="#">Overview</a></li>
+              <li><a href="#">Pricing</a></li>
+              <li><a href="#">Releases</a></li>
+            </ul>
+          </div>
+
+          <!-- Company Links -->
+          <div class="footer-links">
+            <h3>COMPANY</h3>
+            <ul>
+              <li><a href="#">About Us</a></li>
+              <li><a href="#">Contact</a></li>
+              <li><a href="#">News</a></li>
+              <li><a href="#">Support</a></li>
+            </ul>
+          </div>
+
+          <!-- Newsletter -->
+          <div class="footer-newsletter">
+            <h3>STAY UP TO DATE</h3>
+            <form id="newsletter-form">
+              <input
+                type="email"
+                id="email"
+                placeholder="Enter your email"
+                required
+              />
+              <button type="submit">SUBMIT</button>
+            </form>
+          </div>
+        </div>
+
+        <div class="footer-bottom">
+          <p>
+            <a href="#">Terms</a> | <a href="#">Privacy</a> |
+            <a href="#">Cookies</a>
+          </p>
+        </div>
+      </footer>
+    </div>
+
+    <!-- Styles for api integratiom -->
+    <script src="./ApiIntegration/productIntegration.js"></script>
+    <script src="./ApiIntegration/newsLetter.js"></script>
+    <script src="./ApiIntegration/index.js"></script>
+    <!-- Styles for popups -->
+    <script>
+      
+      function handleNavVisibility(e) {
+    const nav = document.querySelector("#open-menu"); 
+    if (e.matches) {
+        nav.style.display = "none";  // Show the nav
+    } else {
+        nav.style.display = "block";  // Hide the nav
+    }
+}
+
+// Define media query for 770px or below
+const mediaQuery = window.matchMedia("(min-width: 769px)");
+mediaQuery.addEventListener("change", handleNavVisibility);
+
+// Run once on page load
+handleNavVisibility(mediaQuery);
+document.getElementById("open-menu").addEventListener("click", function () {
+  document.querySelector('nav').style.display = "block";
+  document.querySelector('.cross').style.display = "block";
+
+})
+document.querySelector('.cross').addEventListener("click", function () {
+  document.querySelector('nav').style.display = "none";
+  document.querySelector('.cross').style.display = "none";
+});
+
+
+    </script>
+  </body>
+</html>

@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Admin Panel</title>
+    <link rel="stylesheet" href="../styles/style.css" />
+    <style>/* Popup and Overlay Styles */
+      .popupDiv {
+        display: none; /* Hide the popup by default */
+      }
+      
+      .popupDiv.active {
+        display: block; /* Show the popup when active */
+      }
+      
+      .overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.5); /* Semi-transparent black background */
+        backdrop-filter: blur(20px); /* Blur effect */
+        /* opacity: 0.8; */
+        z-index: 999; /* Ensure it's above other content */
+      }
+      
+      .popup {
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        background:  white;
+        opacity: 0.6;
+        padding: 2rem;
+        border-radius: 12px;
+        box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
+        width: 400px;
+        max-width: 90%;
+        z-index: 1000; /* Ensure it's above the overlay */
+      }
+      
+      .popup h2 {
+        font-size: 1.5rem;
+        font-weight: 600;
+        margin-bottom: 1.5rem;
+        color: #111827;
+      }
+      
+      .popup input,
+      .popup textarea,
+      .popup select {
+        width: 100%;
+        margin-bottom: 1rem;
+        padding: 0.75rem;
+        border: 1px solid #e5e7eb;
+        border-radius: 8px;
+        font-size: 0.875rem;
+        color: #374151;
+        background-color: #f9fafb;
+        transition: border-color 0.2s, box-shadow 0.2s;
+      }
+      
+      .popup input:focus,
+      .popup textarea:focus,
+      .popup select:focus {
+        outline: none;
+        border-color: #3b82f6;
+        box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+      }
+      
+      .popup textarea {
+        resize: vertical;
+        min-height: 100px;
+      }
+      
+      .popup button {
+        width: 100%;
+        padding: 0.75rem;
+        border: none;
+        border-radius: 8px;
+        font-size: 0.875rem;
+        font-weight: 500;
+        cursor: pointer;
+        transition: background-color 0.2s;
+      }
+      
+      .popup button.create {
+        background-color: #3b82f6;
+        color: white;
+        margin-bottom: 0.5rem;
+      }
+      
+      .popup button.create:hover {
+        background-color: #2563eb;
+      }
+      
+      .popup button.cancel {
+        background-color: #f9fafb;
+        color: #374151;
+        border: 1px solid #e5e7eb;
+      }
+      
+      .popup button.cancel:hover {
+        background-color: #f3f4f6;
+      }
+      
+      .popup .file-input {
+        margin-bottom: 1rem;
+      }
+      
+      .popup .file-input input[type="file"] {
+        display: none;
+      }
+      
+      .popup .file-input label {
+        display: block;
+        padding: 0.75rem;
+        border: 1px dashed #e5e7eb;
+        border-radius: 8px;
+        text-align: center;
+        color: #6b7280;
+        cursor: pointer;
+        transition: border-color 0.2s, background-color 0.2s;
+      }
+      
+      .popup .file-input label:hover {
+        border-color: #3b82f6;
+        background-color: #f0f4ff;
+      }</style>
+  </head>
+  <body>
+    <div class="admin-container">
+      <aside class="sidebar">
+        <div>
+          <h2>Admin Panel</h2>
+          <ul>
+            <li><a href="#products">Products</a></li>
+            <li><a href="#orders">Orders</a></li>
+            <li><a href="#users">Users</a></li>
+            <li><a href="#newsLetter">Subscribers</a></li>
+          </ul>
+        </div>
+        <button class="logout-btn" id="logout">Logout</button>
+      </aside>
+      <main class="content">
+        <button id="theme-toggle">Dark Mode</button>
+        <header>
+          <h1>Welcome to Admin Panel</h1>
+        </header>
+        <section id="products">
+          <h2>Manage Products</h2>
+          <button id="addProduct">Add Product</button>
+          <!-- Popup Structure -->
+          <div class="popupDiv">
+            <div class="overlay" id="overlay"></div>
+          <div class="popup" id="popup">
+            <h2>Create Product</h2>
+            <input type="text" id="name" placeholder="Product Name" />
+            <input type="number" id="price" placeholder="Price" />
+            <input type="text" id="category" placeholder="Category" />
+            <textarea id="description" placeholder="Description"></textarea>
+            <input type="number" id="stock" placeholder="Stock" />
+            <div class="file-input">
+              <input type="file" id="image" />
+              <label for="image">Upload Product Image</label>
+              <span id="file-name-display" style="display: none;"></span> <!-- Add this line -->
+            </div>
+            <button class="create" id="submitProduct">Create</button>
+            <button class="cancel" onclick="closePopup()">Cancel</button>
+          </div>
+          </div>
+          <table border="1" id="productTable">
+            <tr>
+              <th width="26%">Product Name</th>
+              <th width="16%">Price</th>
+              <th width="16%">Category</th>
+              <th width="17%">Stocks</th>
+              <th width="21%">Actions</th>
+            </tr>
+          </table>
+        </section>
+        <section id="orders">
+          <h2>Manage Orders</h2>
+          <table border="1" id="orderTable">
+            <tr>
+              <th width="26%">Order ID</th>
+              <th>Price</th>
+              <th width="22%">Status</th>
+              <th width="22%">Actions</th>
+            </tr>
+          </table>
+        </section>
+        <section id="users">
+          <h2>Manage Users</h2>
+          <table border="1" id="userTable">
+            <tr>
+              <th width="26%">User Name</th>
+              <th>Email</th>
+              <th width="22%">Status</th>
+              <th width="22%">Actions</th>
+            </tr>
+          </table>
+        </section>
+        <section id="newsLetter">
+          <h2>Subscribers</h2>
+          <table border="1" id="newsLetterTable">
+            <tr>
+              <th width="26%">Subscriber No</th>
+              <th>Email Address</th>
+              <th width="22%">Actions</th>
+            </tr>
+          </table>
+        </section>
+      </main>
+    </div>
+    <script>document.addEventListener("DOMContentLoaded", () => {
+      // Add event listener to the "Add Product" button
+      document.getElementById('addProduct').addEventListener('click', () => {
+        openPopup(); // Open the popup
+      });
+    
+      // Add event listener to the "Submit" button in the popup
+      document.getElementById('submitProduct').addEventListener('click', async () => {
+        await submitProduct(); // Handle form submission
+      });
+    });
+    // Add event listener to the file input
+document.getElementById('image').addEventListener('change', (event) => {
+  const fileInput = event.target;
+  const fileNameDisplay = document.getElementById('file-name-display');
+
+  if (fileInput.files.length > 0) {
+    // Get the selected file name
+    const fileName = fileInput.files[0].name;
+
+    // Display the file name
+    fileNameDisplay.textContent = `Selected file: ${fileName}`;
+    fileNameDisplay.style.display = 'block'; // Show the file name display
+  } else {
+    fileNameDisplay.style.display = 'none'; // Hide the file name display if no file is selected
+  }
+});
+    
+    // Function to open the popup
+    function openPopup() {
+      const popupDiv = document.querySelector('.popupDiv');
+      popupDiv.classList.add('active'); // Show the popup and overlay
+      document.body.style.overflow = 'hidden';
+
+    }
+    
+    // Function to close the popup
+    function closePopup() {
+      const popupDiv = document.querySelector('.popupDiv');
+      popupDiv.classList.remove('active'); // Hide the popup and overlay
+      document.body.style.overflow = 'scroll';
+
+    }
+    
+    // Function to handle form submission
+    async function submitProduct() {
+      const name = document.getElementById('name').value;
+      const price = document.getElementById('price').value;
+      const category = document.getElementById('category').value;
+      const description = document.getElementById('description').value;
+      const stock = document.getElementById('stock').value;
+      const coverImage = document.getElementById('image').files[0];
+    
+      // Validate inputs
+      if (!name || !price || !category || !description || !stock || !coverImage) {
+        alert('Please fill all fields and upload an image.');
+        return;
+      }
+    
+      // Create a FormData object for file upload
+      const formData = new FormData();
+      formData.append('name', name);
+      formData.append('price', price);
+      formData.append('category', category);
+      formData.append('description', description);
+      formData.append('stock', stock);
+      formData.append('coverImage', coverImage);
+    
+      try {
+        // Send data to the server
+        const response = await fetch('http://localhost:3000/api/v1/products/create', {
+          method: 'POST',
+          body: formData,
+        });
+    
+        if (!response.ok) {
+          throw new Error('Failed to create product');
+        }
+    
+        const result = await response.json();
+        console.log('Product created:', result);
+        alert('Product created successfully!');
+    
+        // Close the popup after successful submission
+        closePopup();
+    
+        // Optionally, reset the form fields
+        document.getElementById('name').value = '';
+        document.getElementById('price').value = '';
+        document.getElementById('category').value = '';
+        document.getElementById('description').value = '';
+        document.getElementById('stock').value = '';
+        document.getElementById('image').value = '';
+      } catch (error) {
+        console.error('Error creating product:', error);
+        alert('Error creating product. Please try again.');
+      }
+
+    }
+    </script>  
+    <script src="adminPannel.js"></script>
+  </body>
+</html>
+
